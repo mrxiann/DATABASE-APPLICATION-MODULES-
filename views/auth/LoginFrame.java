@@ -1,4 +1,3 @@
-// views/auth/LoginFrame.java
 package views.auth;
 
 import javax.swing.*;
