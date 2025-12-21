@@ -130,7 +130,7 @@ public class LoginFrame extends JFrame {
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+        //Demo
         if (email.equals("admin@sk.com") && password.equals("admin123") && role.equals("SK Official")) {
             JOptionPane.showMessageDialog(this, "Welcome Admin!", "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose();
