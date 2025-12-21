@@ -5,12 +5,11 @@ public class User {
     private String fullName;
     private String email;
     private String password;
-    private String role; // "admin" or "youth"
+    private String role;
     private String status;
     private String purokAddress;
     private int age;
     
-    // Constructor
     public User(int id, String fullName, String email, String role, String status, String purokAddress, int age) {
         this.id = id;
         this.fullName = fullName;
@@ -21,7 +20,7 @@ public class User {
         this.age = age;
     }
     
-    // Getters and Setters
+    // Getters and setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     

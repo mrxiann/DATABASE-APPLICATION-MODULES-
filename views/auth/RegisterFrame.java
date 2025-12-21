@@ -12,7 +12,7 @@ public class RegisterFrame extends JFrame {
     
     public RegisterFrame() {
         setTitle("SK Connect - Register");
-        setSize(450, 500);
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -24,35 +24,41 @@ public class RegisterFrame extends JFrame {
     private void initComponents() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(Color.WHITE);
         
         // Header
         JLabel headerLabel = new JLabel("Create Your SK Connect Account", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        headerLabel.setForeground(new Color(0, 102, 204));
         
         // Form panel
-        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+        formPanel.setBackground(Color.WHITE);
         
         // Full Name
         fullNameField = new JTextField();
+        fullNameField.setMaximumSize(new Dimension(300, 30));
         fullNameField.setBorder(BorderFactory.createTitledBorder("Full Name *"));
         
         // Email
         emailField = new JTextField();
+        emailField.setMaximumSize(new Dimension(300, 30));
         emailField.setBorder(BorderFactory.createTitledBorder("Email Address *"));
         
         // Password
-        JPanel passwordPanel = new JPanel(new GridLayout(1, 2, 10, 0));
         passwordField = new JPasswordField();
+        passwordField.setMaximumSize(new Dimension(300, 30));
         passwordField.setBorder(BorderFactory.createTitledBorder("Password *"));
         
+        // Confirm Password
         confirmPasswordField = new JPasswordField();
+        confirmPasswordField.setMaximumSize(new Dimension(300, 30));
         confirmPasswordField.setBorder(BorderFactory.createTitledBorder("Confirm Password *"));
-        
-        passwordPanel.add(passwordField);
-        passwordPanel.add(confirmPasswordField);
         
         // Register button
         JButton registerButton = new JButton("Register Account");
+        registerButton.setMaximumSize(new Dimension(300, 40));
         registerButton.setBackground(new Color(40, 167, 69));
         registerButton.setForeground(Color.WHITE);
         registerButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -60,22 +66,36 @@ public class RegisterFrame extends JFrame {
         
         // Back to login
         JButton backButton = new JButton("Already have an account? Log In Here");
+        backButton.setMaximumSize(new Dimension(300, 30));
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
         backButton.setForeground(new Color(0, 102, 204));
-        backButton.addActionListener(e -> backToLogin());
+        backButton.addActionListener(e -> {
+            new LoginFrame();
+            dispose();
+        });
         
-        // Add components
+        // Add components with spacing
+        formPanel.add(Box.createVerticalStrut(10));
         formPanel.add(fullNameField);
+        formPanel.add(Box.createVerticalStrut(15));
         formPanel.add(emailField);
-        formPanel.add(passwordPanel);
+        formPanel.add(Box.createVerticalStrut(15));
+        formPanel.add(passwordField);
+        formPanel.add(Box.createVerticalStrut(15));
+        formPanel.add(confirmPasswordField);
+        formPanel.add(Box.createVerticalStrut(20));
         formPanel.add(registerButton);
+        formPanel.add(Box.createVerticalStrut(10));
         formPanel.add(backButton);
         
         mainPanel.add(headerLabel, BorderLayout.NORTH);
         mainPanel.add(formPanel, BorderLayout.CENTER);
         
         add(mainPanel);
+        
+        // Enter key to register
+        getRootPane().setDefaultButton(registerButton);
     }
     
     private void attemptRegister() {
@@ -101,16 +121,13 @@ public class RegisterFrame extends JFrame {
             return;
         }
         
+        // DEMO: Show success
         JOptionPane.showMessageDialog(this,
             "Registration successful! You can now log in.",
             "Success",
             JOptionPane.INFORMATION_MESSAGE);
             
         // Go back to login
-        backToLogin();
-    }
-    
-    private void backToLogin() {
         new LoginFrame();
         this.dispose();
     }

@@ -1,11 +1,8 @@
-import javax.swing.*;
+import views.auth.LoginFrame;
 
 public class Main {
     public static void main(String[] args) {
-        // SwingUtils for thread safety
-        SwingUtilities.invokeLater(() -> {
-            // login scren
-            new LoginFrame();
-        });
+        // login scren
+        new LoginFrame();
     }
 }
