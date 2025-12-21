@@ -96,7 +96,6 @@ public class LoginFrame extends JFrame {
             return;
         }
         
-        // DEMO LOGIN - Replace with database check later
         if (email.equals("admin@sk.com") && password.equals("admin123") && role.equals("SK Official")) {
             JOptionPane.showMessageDialog(this, "Welcome Admin!");
             dispose(); // Close login window
