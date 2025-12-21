@@ -29,7 +29,7 @@ public class DatabaseConnection {
             System.out.println("   Make sure:");
             System.out.println("   1. XAMPP is running (Apache & MySQL)");
             System.out.println("   2. Database 'sk_system' exists");
-            System.out.println("   3. Run setup_database.sql in phpMyAdmin");
+            System.out.println("   3. Run sk_system.sql in phpMyAdmin");
         }
         return connection;
     }
@@ -54,7 +54,7 @@ public class DatabaseConnection {
                 DatabaseMetaData meta = conn.getMetaData();
                 ResultSet tables = meta.getTables(null, null, "users", null);
                 if (!tables.next()) {
-                    System.out.println("⚠️ Tables not found. Please run setup_database.sql");
+                    System.out.println("⚠️ Tables not found. Please run sk_system.sql");
                 } else {
                     System.out.println("✅ Database tables verified");
                 }
