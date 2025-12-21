@@ -3,49 +3,43 @@ package models;
 import java.util.Date;
 
 public class Event {
-    private int id;
+    private int eventId;
     private String title;
-    private Date date;
+    private String description;
+    private Date eventDate;
+    private String eventTime;
     private String location;
     private String type;
-    private String status;
-    private int slotsAvailable;
     private int slotsTotal;
+    private int slotsFilled;
+    private String status;
     
-    public Event(int id, String title, Date date, String location, String type, 
-                 String status, int slotsAvailable, int slotsTotal) {
-        this.id = id;
+    public Event(int eventId, String title, String description, Date eventDate, 
+                 String eventTime, String location, String type, 
+                 int slotsTotal, int slotsFilled, String status) {
+        this.eventId = eventId;
         this.title = title;
-        this.date = date;
+        this.description = description;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
         this.location = location;
         this.type = type;
-        this.status = status;
-        this.slotsAvailable = slotsAvailable;
         this.slotsTotal = slotsTotal;
+        this.slotsFilled = slotsFilled;
+        this.status = status;
     }
     
-    // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    
+    // Getters
+    public int getEventId() { return eventId; }
     public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
-    
+    public String getDescription() { return description; }
+    public Date getEventDate() { return eventDate; }
+    public String getEventTime() { return eventTime; }
     public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-    
     public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
-    
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    
-    public int getSlotsAvailable() { return slotsAvailable; }
-    public void setSlotsAvailable(int slotsAvailable) { this.slotsAvailable = slotsAvailable; }
-    
     public int getSlotsTotal() { return slotsTotal; }
-    public void setSlotsTotal(int slotsTotal) { this.slotsTotal = slotsTotal; }
+    public int getSlotsFilled() { return slotsFilled; }
+    public int getSlotsAvailable() { return slotsTotal - slotsFilled; }
+    public String getStatus() { return status; }
+    public String getSlotsDisplay() { return slotsFilled + " / " + slotsTotal; }
 }
