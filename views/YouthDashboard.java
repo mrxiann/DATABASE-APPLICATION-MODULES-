@@ -132,7 +132,7 @@ public class YouthDashboard extends JFrame {
         return card;
     }
     
-    private JPanel createQuickLinksPanel() {
+        private JPanel createQuickLinksPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createTitledBorder("Quick Links"));
@@ -141,18 +141,22 @@ public class YouthDashboard extends JFrame {
         linksPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         linksPanel.setBackground(Color.WHITE);
         
-        // Links that match PHP
-        String[][] links = {
+        // Using Object array instead of mixed types
+        Object[][] links = {
             {"Register for New Events", "📅", new Color(59, 130, 246)},
             {"Update My Profile", "👤", new Color(34, 197, 94)},
             {"Submit Feedback/Inquiry", "💬", new Color(239, 68, 68)}
         };
         
-        for (String[] link : links) {
-            JButton linkButton = new JButton(link[1] + "  " + link[0]);
+        for (Object[] link : links) {
+            String text = (String) link[0];
+            String icon = (String) link[1];
+            Color color = (Color) link[2];
+            
+            JButton linkButton = new JButton(icon + "  " + text);
             linkButton.setHorizontalAlignment(SwingConstants.LEFT);
-            linkButton.setBackground(new Color(link[2].getRed(), link[2].getGreen(), link[2].getBlue(), 20));
-            linkButton.setForeground(link[2]);
+            linkButton.setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 20));
+            linkButton.setForeground(color);
             linkButton.setBorder(BorderFactory.createEmptyBorder(12, 15, 12, 15));
             linkButton.setFont(new Font("Arial", Font.BOLD, 13));
             linkButton.setFocusPainted(false);
