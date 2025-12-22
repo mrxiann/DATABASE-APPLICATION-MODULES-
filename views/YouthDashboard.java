@@ -3,7 +3,6 @@ package views;
 import javax.swing.*;
 import views.components.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class YouthDashboard extends JFrame {
     private ModernSidebar sidebar;
