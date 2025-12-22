@@ -1,21 +1,18 @@
 package views;
 
 import javax.swing.*;
+import views.components.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class RegisterFrame extends JFrame {
-    private JTextField firstNameField;
-    private JTextField lastNameField;
-    private JTextField emailField;
-    private JPasswordField passwordField;
-    private JPasswordField confirmPasswordField;
-    private JTextField ageField;
+    private JTextField firstNameField, lastNameField, emailField, ageField;
+    private JPasswordField passwordField, confirmPasswordField;
     private JComboBox<String> purokCombo;
     
     public RegisterFrame() {
-        setTitle("SK System - Register");
-        setSize(400, 500);
+        setTitle("SK Connect - Register");
+        setSize(550, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -25,112 +22,197 @@ public class RegisterFrame extends JFrame {
     }
     
     private void initComponents() {
-        // Main panel - matches PHP style
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        // Main panel with gradient
+        GradientPanel mainPanel = new GradientPanel(
+            new Color(99, 102, 241),
+            new Color(139, 92, 246)
+        );
+        mainPanel.setLayout(new BorderLayout());
         
-        // Header - matches PHP register.php
-        JLabel headerLabel = new JLabel("Create Your SK Connect Account", SwingConstants.CENTER);
-        headerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        headerLabel.setForeground(new Color(79, 70, 229));
+        // Header
+        RoundedPanel headerPanel = new RoundedPanel();
+        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
+        headerPanel.setBackgroundColor(new Color(255, 255, 255, 30));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 30, 0));
         
-        JLabel subLabel = new JLabel("Register as a Youth User to get started.", SwingConstants.CENTER);
-        subLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        subLabel.setForeground(Color.GRAY);
+        JLabel logo = new JLabel("🚀", SwingConstants.CENTER);
+        logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
+        logo.setForeground(Color.WHITE);
         
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.add(headerLabel, BorderLayout.NORTH);
-        headerPanel.add(subLabel, BorderLayout.SOUTH);
+        JLabel title = new JLabel("Join SK Connect", SwingConstants.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        title.setForeground(Color.WHITE);
+        
+        JLabel subtitle = new JLabel("Create your youth account", SwingConstants.CENTER);
+        subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        subtitle.setForeground(new Color(255, 255, 255, 180));
+        
+        headerPanel.add(logo);
+        headerPanel.add(Box.createVerticalStrut(10));
+        headerPanel.add(title);
+        headerPanel.add(Box.createVerticalStrut(5));
+        headerPanel.add(subtitle);
         
         // Form panel
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+        formPanel.setOpaque(false);
+        formPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
         
-        // Name fields - matches PHP
-        firstNameField = new JTextField();
-        firstNameField.setMaximumSize(new Dimension(300, 40));
-        firstNameField.setBorder(BorderFactory.createTitledBorder("First Name *"));
+        // Form container
+        RoundedPanel formContainer = new RoundedPanel(25);
+        formContainer.setLayout(new BoxLayout(formContainer, BoxLayout.Y_AXIS));
+        formContainer.setBackgroundColor(new Color(255, 255, 255, 230));
+        formContainer.setShadow(true);
+        formContainer.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         
-        lastNameField = new JTextField();
-        lastNameField.setMaximumSize(new Dimension(300, 40));
-        lastNameField.setBorder(BorderFactory.createTitledBorder("Last Name *"));
+        // Name fields
+        JPanel namePanel = new JPanel(new GridLayout(1, 2, 15, 0));
+        namePanel.setOpaque(false);
         
-        // Email field
-        emailField = new JTextField();
-        emailField.setMaximumSize(new Dimension(300, 40));
-        emailField.setBorder(BorderFactory.createTitledBorder("Email Address *"));
+        firstNameField = createStyledTextField("First Name");
+        lastNameField = createStyledTextField("Last Name");
         
-        // Age field
-        ageField = new JTextField();
-        ageField.setMaximumSize(new Dimension(300, 40));
-        ageField.setBorder(BorderFactory.createTitledBorder("Age *"));
+        namePanel.add(firstNameField);
+        namePanel.add(lastNameField);
         
-        // Purok selection - matches PHP filter
+        // Other fields
+        emailField = createStyledTextField("Email Address");
+        ageField = createStyledTextField("Age");
+        
+        // Purok selection
+        JLabel purokLabel = new JLabel("Purok:");
+        purokLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        purokLabel.setForeground(new Color(55, 65, 81));
+        
         String[] puroks = {"Purok 1", "Purok 2", "Purok 3", "Purok 4", "Purok 5"};
         purokCombo = new JComboBox<>(puroks);
-        purokCombo.setMaximumSize(new Dimension(300, 40));
-        purokCombo.setBorder(BorderFactory.createTitledBorder("Purok *"));
+        styleComboBox(purokCombo);
         
-        // Password fields - matches PHP layout
-        JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
+        // Password fields
+        passwordField = createStyledPasswordField("Password");
+        confirmPasswordField = createStyledPasswordField("Confirm Password");
         
-        passwordField = new JPasswordField();
-        passwordField.setMaximumSize(new Dimension(300, 40));
-        passwordField.setBorder(BorderFactory.createTitledBorder("Password *"));
-        
-        confirmPasswordField = new JPasswordField();
-        confirmPasswordField.setMaximumSize(new Dimension(300, 40));
-        confirmPasswordField.setBorder(BorderFactory.createTitledBorder("Confirm Password *"));
-        
-        passwordPanel.add(passwordField);
-        passwordPanel.add(Box.createVerticalStrut(10));
-        passwordPanel.add(confirmPasswordField);
-        
-        // Register button - green like PHP
-        JButton registerButton = new JButton("Register Account");
-        registerButton.setMaximumSize(new Dimension(300, 45));
-        registerButton.setBackground(new Color(40, 167, 69)); // Green like PHP
-        registerButton.setForeground(Color.WHITE);
-        registerButton.setFont(new Font("Arial", Font.BOLD, 14));
+        // Register button
+        ModernButton registerButton = new ModernButton("CREATE ACCOUNT", new Color(34, 197, 94));
+        registerButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        registerButton.setPreferredSize(new Dimension(300, 50));
         registerButton.addActionListener(e -> register());
         
-        // Back link - matches PHP
-        JButton backButton = new JButton("Already have an account? Log In Here");
-        backButton.setMaximumSize(new Dimension(300, 30));
-        backButton.setBorderPainted(false);
-        backButton.setContentAreaFilled(false);
-        backButton.setForeground(new Color(79, 70, 229));
-        backButton.addActionListener(e -> {
-            new LoginFrame();
-            dispose();
-        });
+        // Back to login
+        JButton backButton = createLinkButton("← Already have an account? Log In Here", 
+            e -> {
+                new LoginFrame();
+                dispose();
+            });
         
         // Add components
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(firstNameField);
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(lastNameField);
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(emailField);
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(ageField);
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(purokCombo);
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(passwordPanel);
-        formPanel.add(Box.createVerticalStrut(20));
-        formPanel.add(registerButton);
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(backButton);
+        formContainer.add(createLabel("Name"));
+        formContainer.add(Box.createVerticalStrut(5));
+        formContainer.add(namePanel);
+        formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Email"));
+        formContainer.add(Box.createVerticalStrut(5));
+        formContainer.add(emailField);
+        formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Age"));
+        formContainer.add(Box.createVerticalStrut(5));
+        formContainer.add(ageField);
+        formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(purokLabel);
+        formContainer.add(Box.createVerticalStrut(5));
+        formContainer.add(purokCombo);
+        formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Password"));
+        formContainer.add(Box.createVerticalStrut(5));
+        formContainer.add(passwordField);
+        formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Confirm Password"));
+        formContainer.add(Box.createVerticalStrut(5));
+        formContainer.add(confirmPasswordField);
+        formContainer.add(Box.createVerticalStrut(25));
+        formContainer.add(registerButton);
+        formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(backButton);
+        
+        formPanel.add(formContainer);
+        
+        // Footer
+        JLabel footer = new JLabel("By registering, you agree to our Terms & Conditions", 
+            SwingConstants.CENTER);
+        footer.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        footer.setForeground(new Color(255, 255, 255, 150));
+        footer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         
         mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(formPanel, BorderLayout.CENTER);
+        mainPanel.add(footer, BorderLayout.SOUTH);
         
         add(mainPanel);
         
         // Enter key to register
         getRootPane().setDefaultButton(registerButton);
+    }
+    
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        label.setForeground(new Color(55, 65, 81));
+        return label;
+    }
+    
+    private JTextField createStyledTextField(String placeholder) {
+        JTextField field = new JTextField();
+        field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+            BorderFactory.createEmptyBorder(12, 15, 12, 15)
+        ));
+        field.setMaximumSize(new Dimension(400, 45));
+        return field;
+    }
+    
+    private JPasswordField createStyledPasswordField(String placeholder) {
+        JPasswordField field = new JPasswordField();
+        field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+            BorderFactory.createEmptyBorder(12, 15, 12, 15)
+        ));
+        field.setMaximumSize(new Dimension(400, 45));
+        return field;
+    }
+    
+    private void styleComboBox(JComboBox<String> combo) {
+        combo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        combo.setBackground(Color.WHITE);
+        combo.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
+        ));
+        combo.setMaximumSize(new Dimension(400, 45));
+    }
+    
+    private JButton createLinkButton(String text, ActionListener action) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        button.setForeground(new Color(79, 70, 229));
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.addActionListener(action);
+        
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                button.setForeground(new Color(67, 56, 202));
+            }
+            public void mouseExited(MouseEvent e) {
+                button.setForeground(new Color(79, 70, 229));
+            }
+        });
+        
+        return button;
     }
     
     private void register() {
@@ -140,21 +222,18 @@ public class RegisterFrame extends JFrame {
         String ageStr = ageField.getText().trim();
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
-        String purok = (String) purokCombo.getSelectedItem();
+        String purok = (String) purokCombo.getSelectedItem(); // Now used in success message
         
-        // Validation - matches PHP validation
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || ageStr.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Error: All fields are required.", 
-                "Registration Failed", 
+        // Validation
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || 
+            ageStr.isEmpty() || password.isEmpty()) {
+            showMessage("All fields are required.", "⚠️ Registration Failed", 
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
         
         if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(this, 
-                "Error: Passwords do not match.", 
-                "Registration Failed", 
+            showMessage("Passwords do not match.", "❌ Registration Failed", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -162,28 +241,30 @@ public class RegisterFrame extends JFrame {
         try {
             int age = Integer.parseInt(ageStr);
             if (age < 15 || age > 40) {
-                JOptionPane.showMessageDialog(this, 
-                    "Age must be between 15-40 for youth registration.", 
-                    "Registration Failed", 
-                    JOptionPane.ERROR_MESSAGE);
+                showMessage("Age must be between 15-40 for youth registration.", 
+                    "❌ Registration Failed", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, 
-                "Please enter a valid age!", 
-                "Registration Failed", 
+            showMessage("Please enter a valid age!", "❌ Registration Failed", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        // Success - matches PHP success message
-        JOptionPane.showMessageDialog(this,
-            "Registration data received!\n(Will connect to database)",
-            "Success",
-            JOptionPane.INFORMATION_MESSAGE);
+        // Success - USE the purok variable
+        showMessage("✅ Registration Successful!\n\n" +
+            "Name: " + firstName + " " + lastName + "\n" +
+            "Email: " + email + "\n" +
+            "Age: " + ageStr + "\n" +
+            "Purok: " + purok + "\n\n" +
+            "Welcome to SK Connect!", 
+            "🎉 Success", JOptionPane.INFORMATION_MESSAGE);
             
-        // Go back to login
         new LoginFrame();
         dispose();
+    }
+    
+    private void showMessage(String message, String title, int type) {
+        JOptionPane.showMessageDialog(this, message, title, type);
     }
 }
