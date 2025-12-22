@@ -13,3 +13,8 @@ views/YouthEventsFrame$ButtonEditor.class
 views/YouthFeedbackFrame.class
 views/YouthProfileFrame.class
 views/YouthOpportunitiesFrame$OppButtonEditor.class
+/bin/views
+*.class
+/bin/views
+/bin/views
+/bin

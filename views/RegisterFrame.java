@@ -2,7 +2,6 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class RegisterFrame extends JFrame {
     private JTextField firstNameField;
@@ -140,7 +139,6 @@ public class RegisterFrame extends JFrame {
         String ageStr = ageField.getText().trim();
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
-        String purok = (String) purokCombo.getSelectedItem();
         
         // Validation - matches PHP validation
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || ageStr.isEmpty() || password.isEmpty()) {
