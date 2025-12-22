@@ -273,7 +273,8 @@ public class YouthEventsFrame extends JFrame {
                 new YouthOpportunitiesFrame();
                 break;
             case "qr":
-                new YouthDashboard(); // Will show QR from dashboard
+                // Return to dashboard which will show QR
+                new YouthDashboard();
                 break;
             case "feedback":
                 new YouthFeedbackFrame();
