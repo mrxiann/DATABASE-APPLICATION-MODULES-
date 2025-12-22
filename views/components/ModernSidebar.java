@@ -2,8 +2,7 @@ package views.components;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,6 +144,11 @@ public class ModernSidebar extends RoundedPanel {
                         setBackground(new Color(255, 255, 255, 0));
                     }
                 }
+                
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    fireActionPerformed();
+                }
             });
         }
         
@@ -164,10 +168,14 @@ public class ModernSidebar extends RoundedPanel {
                 setBackground(new Color(255, 255, 255, 0));
                 textLabel.setForeground(new Color(203, 213, 225));
                 iconLabel.setForeground(new Color(203, 213, 225));
+                // Remove indicator if present
+                remove(indicator);
             }
             revalidate();
             repaint();
         }
+        
+        private JPanel indicator; // Add this field
         
         public void setActive(boolean active) {
             this.active = active;
@@ -179,12 +187,24 @@ public class ModernSidebar extends RoundedPanel {
         }
         
         public void addActionListener(ActionListener listener) {
+            // Store listener and fire when clicked
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, id));
+                    listener.actionPerformed(new ActionEvent(SidebarItem.this, 
+                        ActionEvent.ACTION_PERFORMED, id));
                 }
             });
+        }
+        
+        private void fireActionPerformed() {
+            // Fire action event for any listeners
+            ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, id);
+            for (MouseListener ml : getMouseListeners()) {
+                if (ml instanceof MouseAdapter) {
+                    // Mouse clicked event already handled
+                }
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ public class StatCard extends RoundedPanel {
     private String icon;
     private Color gradientStart;
     private Color gradientEnd;
+    private int cornerRadius = 20; // Add this field
     
     public StatCard(String title, String value, String icon, Color start, Color end) {
         this.title = title;
@@ -19,7 +20,7 @@ public class StatCard extends RoundedPanel {
         
         setLayout(new BorderLayout(15, 15));
         setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-        setBackgroundColor(start); // Temporary, will be painted with gradient
+        setBackgroundColor(start);
         
         initComponents();
     }
@@ -61,9 +62,14 @@ public class StatCard extends RoundedPanel {
             getWidth(), getHeight(), gradientEnd
         );
         g2.setPaint(gradient);
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), getCornerRadius(), getCornerRadius());
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
         
         g2.dispose();
         super.paintComponent(g);
+    }
+    
+    // Add getter for cornerRadius
+    public int getCornerRadius() {
+        return cornerRadius;
     }
 }
