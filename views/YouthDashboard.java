@@ -17,7 +17,6 @@ public class YouthDashboard extends JFrame {
     }
     
     private void initComponents() {
-        // Main container - matches PHP layout
         JPanel mainContainer = new JPanel(new BorderLayout());
         
         // Sidebar - indigo like PHP youth_sidebar.php
@@ -132,7 +131,7 @@ public class YouthDashboard extends JFrame {
         return card;
     }
     
-        private JPanel createQuickLinksPanel() {
+    private JPanel createQuickLinksPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createTitledBorder("Quick Links"));
@@ -141,7 +140,6 @@ public class YouthDashboard extends JFrame {
         linksPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         linksPanel.setBackground(Color.WHITE);
         
-        // Using Object array instead of mixed types
         Object[][] links = {
             {"Register for New Events", "📅", new Color(59, 130, 246)},
             {"Update My Profile", "👤", new Color(34, 197, 94)},
@@ -160,6 +158,16 @@ public class YouthDashboard extends JFrame {
             linkButton.setBorder(BorderFactory.createEmptyBorder(12, 15, 12, 15));
             linkButton.setFont(new Font("Arial", Font.BOLD, 13));
             linkButton.setFocusPainted(false);
+            
+            // Add action listeners
+            if (text.contains("Events")) {
+                linkButton.addActionListener(e -> new YouthEventsFrame());
+            } else if (text.contains("Profile")) {
+                linkButton.addActionListener(e -> new YouthProfileFrame());
+            } else if (text.contains("Feedback")) {
+                linkButton.addActionListener(e -> new YouthFeedbackFrame());
+            }
+            
             linksPanel.add(linkButton);
         }
         
@@ -209,10 +217,13 @@ public class YouthDashboard extends JFrame {
         // View all link
         JPanel linkPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         linkPanel.setBackground(Color.WHITE);
-        JLabel viewAll = new JLabel("View All Opportunities →");
-        viewAll.setForeground(new Color(79, 70, 229));
-        viewAll.setFont(new Font("Arial", Font.BOLD, 12));
-        linkPanel.add(viewAll);
+        JButton viewAllButton = new JButton("View All Opportunities →");
+        viewAllButton.setForeground(new Color(79, 70, 229));
+        viewAllButton.setFont(new Font("Arial", Font.BOLD, 12));
+        viewAllButton.setBorderPainted(false);
+        viewAllButton.setContentAreaFilled(false);
+        viewAllButton.addActionListener(e -> new YouthOpportunitiesFrame());
+        linkPanel.add(viewAllButton);
         
         contentPanel.add(Box.createVerticalGlue());
         contentPanel.add(linkPanel);
@@ -238,7 +249,6 @@ public class YouthDashboard extends JFrame {
         activitiesPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         activitiesPanel.setBackground(Color.WHITE);
         
-        // Activities - matches PHP
         String[][] activities = {
             {"✅", "Successfully registered for the Tree Planting Drive.", "Feb 15, 2026"},
             {"💼", "Applied for the SK Admin Assistant position.", "Feb 10, 2026"}
@@ -284,10 +294,9 @@ public class YouthDashboard extends JFrame {
     private JPanel createSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBackground(new Color(79, 70, 229)); // Indigo-700 from PHP
+        sidebar.setBackground(new Color(79, 70, 229));
         sidebar.setPreferredSize(new Dimension(250, 700));
         
-        // Logo - matches PHP youth_sidebar.php
         JLabel logo = new JLabel("SK Youth Portal");
         logo.setFont(new Font("Arial", Font.BOLD, 18));
         logo.setForeground(Color.WHITE);
@@ -298,14 +307,13 @@ public class YouthDashboard extends JFrame {
         logo.setHorizontalAlignment(SwingConstants.CENTER);
         sidebar.add(logo);
         
-        // Navigation - matches PHP exactly
         String[][] menuItems = {
-            {"🏠", "Dashboard", "youth_dashboard.php"},
-            {"📅", "View Events", "youth_events.php"},
-            {"💼", "Opportunities", "youth_opportunities.php"},
-            {"📱", "My QR Code", "youth_qr.php"},
-            {"💬", "Submit Feedback", "youth_feedback.php"},
-            {"👤", "My Profile", "youth_profile.php"}
+            {"🏠", "Dashboard", "dashboard"},
+            {"📅", "View Events", "events"},
+            {"💼", "Opportunities", "opportunities"},
+            {"📱", "My QR Code", "qr"},
+            {"💬", "Submit Feedback", "feedback"},
+            {"👤", "My Profile", "profile"}
         };
         
         JPanel navPanel = new JPanel();
@@ -323,11 +331,15 @@ public class YouthDashboard extends JFrame {
             menuButton.setFocusPainted(false);
             menuButton.setMaximumSize(new Dimension(230, 45));
             
-            // Highlight Dashboard (current page)
+            // Highlight current page
             if (item[1].equals("Dashboard")) {
-                menuButton.setBackground(new Color(67, 56, 202)); // Indigo-800
+                menuButton.setBackground(new Color(67, 56, 202));
                 menuButton.setFont(new Font("Arial", Font.BOLD, 14));
             }
+            
+            // Add navigation
+            String page = item[2];
+            menuButton.addActionListener(e -> navigateToPage(page));
             
             navPanel.add(menuButton);
             navPanel.add(Box.createVerticalStrut(5));
@@ -336,7 +348,7 @@ public class YouthDashboard extends JFrame {
         sidebar.add(navPanel);
         sidebar.add(Box.createVerticalGlue());
         
-        // User info - matches PHP
+        // User info
         JPanel userPanel = new JPanel(new BorderLayout(10, 0));
         userPanel.setBackground(new Color(79, 70, 229));
         userPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -344,11 +356,9 @@ public class YouthDashboard extends JFrame {
             BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
         
-        // Avatar
         JLabel avatar = new JLabel("👤");
         avatar.setFont(new Font("Arial", Font.PLAIN, 24));
         
-        // User info
         JPanel infoPanel = new JPanel(new GridLayout(2, 1));
         infoPanel.setBackground(new Color(79, 70, 229));
         JLabel nameLabel = new JLabel("Juan D. Dela Cruz");
@@ -362,7 +372,6 @@ public class YouthDashboard extends JFrame {
         infoPanel.add(nameLabel);
         infoPanel.add(roleLabel);
         
-        // Logout button
         JButton logoutButton = new JButton("🚪");
         logoutButton.setForeground(new Color(199, 210, 254));
         logoutButton.setBackground(new Color(79, 70, 229));
@@ -378,6 +387,32 @@ public class YouthDashboard extends JFrame {
         return sidebar;
     }
     
+    private void navigateToPage(String page) {
+        dispose(); // Close current window
+        
+        switch (page) {
+            case "dashboard":
+                new YouthDashboard();
+                break;
+            case "events":
+                new YouthEventsFrame();
+                break;
+            case "opportunities":
+                new YouthOpportunitiesFrame();
+                break;
+            case "qr":
+                showQRCode();
+                new YouthDashboard(); // Return to dashboard
+                break;
+            case "feedback":
+                new YouthFeedbackFrame();
+                break;
+            case "profile":
+                new YouthProfileFrame();
+                break;
+        }
+    }
+    
     private void showQRCode() {
         JDialog qrDialog = new JDialog(this, "Your Official SK Youth QR ID", true);
         qrDialog.setSize(400, 450);
@@ -386,7 +421,6 @@ public class YouthDashboard extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        // QR Code placeholder - matches PHP qr.php
         JLabel qrPlaceholder = new JLabel("[QR CODE IMAGE]", SwingConstants.CENTER);
         qrPlaceholder.setFont(new Font("Arial", Font.BOLD, 16));
         qrPlaceholder.setBorder(BorderFactory.createCompoundBorder(
@@ -395,25 +429,21 @@ public class YouthDashboard extends JFrame {
         ));
         qrPlaceholder.setPreferredSize(new Dimension(200, 200));
         
-        // User ID - matches PHP
         JLabel idLabel = new JLabel("SK-YOUTH-00123");
         idLabel.setFont(new Font("Monospace", Font.BOLD, 18));
         idLabel.setForeground(new Color(31, 41, 55));
         idLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
-        // Description - matches PHP
         JLabel descLabel = new JLabel("This code verifies your identity as a registered youth.");
         descLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         descLabel.setForeground(Color.GRAY);
         descLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
-        // Warning - matches PHP
         JLabel warningLabel = new JLabel("⚠️ Keep this code private. Do not share screenshots with others.");
         warningLabel.setFont(new Font("Arial", Font.BOLD, 11));
         warningLabel.setForeground(new Color(239, 68, 68));
         warningLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
-        // Buttons - matches PHP
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 0));
         JButton downloadButton = new JButton("📥 Download Image");
         downloadButton.setBackground(new Color(34, 197, 94));
