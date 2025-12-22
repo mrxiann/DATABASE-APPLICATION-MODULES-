@@ -402,7 +402,7 @@ public class YouthDashboard extends JFrame {
                 break;
             case "qr":
                 showQRCode();
-                new YouthDashboard(); // Return to dashboard
+                // Don't create new dashboard here, just show dialog
                 break;
             case "feedback":
                 new YouthFeedbackFrame();
