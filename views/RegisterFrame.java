@@ -1,6 +1,7 @@
 package views;
 
 import javax.swing.*;
+import views.components.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -11,7 +12,7 @@ public class RegisterFrame extends JFrame {
     
     public RegisterFrame() {
         setTitle("SK Connect - Register");
-        setSize(500, 700);
+        setSize(550, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -22,97 +23,80 @@ public class RegisterFrame extends JFrame {
     
     private void initComponents() {
         // Main panel with gradient
-        GradientPanel mainPanel = new GradientPanel();
+        GradientPanel mainPanel = new GradientPanel(
+            new Color(99, 102, 241),
+            new Color(139, 92, 246)
+        );
         mainPanel.setLayout(new BorderLayout());
         
         // Header
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setOpaque(false);
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
+        RoundedPanel headerPanel = new RoundedPanel();
+        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
+        headerPanel.setBackgroundColor(new Color(255, 255, 255, 30));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 30, 0));
         
-        JLabel icon = new JLabel("🚀", SwingConstants.CENTER);
-        icon.setFont(new Font("Arial", Font.PLAIN, 48));
-        icon.setForeground(Color.WHITE);
+        JLabel logo = new JLabel("🚀", SwingConstants.CENTER);
+        logo.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
+        logo.setForeground(Color.WHITE);
         
-        JLabel title = new JLabel("Create Your Account", SwingConstants.CENTER);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        JLabel title = new JLabel("Join SK Connect", SwingConstants.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 32));
         title.setForeground(Color.WHITE);
         
-        JLabel subtitle = new JLabel("Join SK Connect as a Youth Member", SwingConstants.CENTER);
+        JLabel subtitle = new JLabel("Create your youth account", SwingConstants.CENTER);
         subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        subtitle.setForeground(new Color(220, 220, 255));
+        subtitle.setForeground(new Color(255, 255, 255, 180));
         
-        headerPanel.add(icon, BorderLayout.NORTH);
-        headerPanel.add(title, BorderLayout.CENTER);
-        headerPanel.add(subtitle, BorderLayout.SOUTH);
+        headerPanel.add(logo);
+        headerPanel.add(Box.createVerticalStrut(10));
+        headerPanel.add(title);
+        headerPanel.add(Box.createVerticalStrut(5));
+        headerPanel.add(subtitle);
         
         // Form panel
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.setOpaque(false);
-        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
         
         // Form container
-        JPanel formContainer = new JPanel();
+        RoundedPanel formContainer = new RoundedPanel(25);
         formContainer.setLayout(new BoxLayout(formContainer, BoxLayout.Y_AXIS));
-        formContainer.setBackground(new Color(255, 255, 255, 220));
-        formContainer.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(255, 255, 255, 100), 2, true),
-            BorderFactory.createEmptyBorder(30, 30, 30, 30)
-        ));
+        formContainer.setBackgroundColor(new Color(255, 255, 255, 230));
+        formContainer.setShadow(true);
+        formContainer.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         
-        // Name fields in row
+        // Name fields
         JPanel namePanel = new JPanel(new GridLayout(1, 2, 15, 0));
         namePanel.setOpaque(false);
         
-        firstNameField = createStyledTextField("👤 First Name");
+        firstNameField = createStyledTextField("First Name");
         lastNameField = createStyledTextField("Last Name");
         
         namePanel.add(firstNameField);
         namePanel.add(lastNameField);
         
         // Other fields
-        emailField = createStyledTextField("📧 Email Address");
-        ageField = createStyledTextField("🎂 Age");
+        emailField = createStyledTextField("Email Address");
+        ageField = createStyledTextField("Age");
         
         // Purok selection
-        JPanel purokPanel = new JPanel(new BorderLayout(10, 0));
-        purokPanel.setOpaque(false);
-        JLabel purokIcon = new JLabel("📍");
-        purokIcon.setFont(new Font("Arial", Font.PLAIN, 16));
+        JLabel purokLabel = new JLabel("Purok:");
+        purokLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        purokLabel.setForeground(new Color(55, 65, 81));
+        
         String[] puroks = {"Purok 1", "Purok 2", "Purok 3", "Purok 4", "Purok 5"};
         purokCombo = new JComboBox<>(puroks);
         styleComboBox(purokCombo);
-        purokPanel.add(purokIcon, BorderLayout.WEST);
-        purokPanel.add(purokCombo, BorderLayout.CENTER);
         
         // Password fields
-        passwordField = createStyledPasswordField("🔒 Password");
-        confirmPasswordField = createStyledPasswordField("✓ Confirm Password");
+        passwordField = createStyledPasswordField("Password");
+        confirmPasswordField = createStyledPasswordField("Confirm Password");
         
         // Register button
-        JButton registerButton = new JButton("CREATE ACCOUNT") {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(34, 197, 94));
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
-                g2.setColor(Color.WHITE);
-                g2.setFont(getFont());
-                FontMetrics fm = g2.getFontMetrics();
-                String text = getText();
-                int x = (getWidth() - fm.stringWidth(text)) / 2;
-                int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
-                g2.drawString(text, x, y);
-                g2.dispose();
-            }
-        };
-        registerButton.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
-        registerButton.setContentAreaFilled(false);
-        registerButton.setFocusPainted(false);
+        ModernButton registerButton = new ModernButton("CREATE ACCOUNT", new Color(34, 197, 94));
         registerButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        registerButton.setPreferredSize(new Dimension(300, 50));
         registerButton.addActionListener(e -> register());
         
         // Back to login
@@ -123,16 +107,28 @@ public class RegisterFrame extends JFrame {
             });
         
         // Add components
+        formContainer.add(createLabel("Name"));
+        formContainer.add(Box.createVerticalStrut(5));
         formContainer.add(namePanel);
         formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Email"));
+        formContainer.add(Box.createVerticalStrut(5));
         formContainer.add(emailField);
         formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Age"));
+        formContainer.add(Box.createVerticalStrut(5));
         formContainer.add(ageField);
         formContainer.add(Box.createVerticalStrut(15));
-        formContainer.add(purokPanel);
+        formContainer.add(purokLabel);
+        formContainer.add(Box.createVerticalStrut(5));
+        formContainer.add(purokCombo);
         formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Password"));
+        formContainer.add(Box.createVerticalStrut(5));
         formContainer.add(passwordField);
         formContainer.add(Box.createVerticalStrut(15));
+        formContainer.add(createLabel("Confirm Password"));
+        formContainer.add(Box.createVerticalStrut(5));
         formContainer.add(confirmPasswordField);
         formContainer.add(Box.createVerticalStrut(25));
         formContainer.add(registerButton);
@@ -145,7 +141,7 @@ public class RegisterFrame extends JFrame {
         JLabel footer = new JLabel("By registering, you agree to our Terms & Conditions", 
             SwingConstants.CENTER);
         footer.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        footer.setForeground(new Color(220, 220, 255));
+        footer.setForeground(new Color(255, 255, 255, 150));
         footer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         
         mainPanel.add(headerPanel, BorderLayout.NORTH);
@@ -158,11 +154,18 @@ public class RegisterFrame extends JFrame {
         getRootPane().setDefaultButton(registerButton);
     }
     
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        label.setForeground(new Color(55, 65, 81));
+        return label;
+    }
+    
     private JTextField createStyledTextField(String placeholder) {
         JTextField field = new JTextField();
         field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 220), 1),
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
             BorderFactory.createEmptyBorder(12, 15, 12, 15)
         ));
         field.setMaximumSize(new Dimension(400, 45));
@@ -173,7 +176,7 @@ public class RegisterFrame extends JFrame {
         JPasswordField field = new JPasswordField();
         field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 220), 1),
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
             BorderFactory.createEmptyBorder(12, 15, 12, 15)
         ));
         field.setMaximumSize(new Dimension(400, 45));
@@ -184,10 +187,9 @@ public class RegisterFrame extends JFrame {
         combo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         combo.setBackground(Color.WHITE);
         combo.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 220), 1),
-            BorderFactory.createEmptyBorder(12, 15, 12, 15)
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
         ));
-        combo.setFocusable(false);
         combo.setMaximumSize(new Dimension(400, 45));
     }
     
@@ -195,12 +197,21 @@ public class RegisterFrame extends JFrame {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         button.setForeground(new Color(79, 70, 229));
-        button.setBackground(new Color(255, 255, 255, 100));
-        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
-        button.setFocusPainted(false);
         button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.addActionListener(action);
+        
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                button.setForeground(new Color(67, 56, 202));
+            }
+            public void mouseExited(MouseEvent e) {
+                button.setForeground(new Color(79, 70, 229));
+            }
+        });
+        
         return button;
     }
     
@@ -211,7 +222,7 @@ public class RegisterFrame extends JFrame {
         String ageStr = ageField.getText().trim();
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
-        String purok = (String) purokCombo.getSelectedItem();
+        String purok = (String) purokCombo.getSelectedItem(); // Now used in success message
         
         // Validation
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || 
@@ -240,9 +251,13 @@ public class RegisterFrame extends JFrame {
             return;
         }
         
-        // Success
-        showMessage("✅ Registration successful!\n\nWelcome to SK Connect, " + 
-            firstName + "!\n\nYou can now login with your credentials.", 
+        // Success - USE the purok variable
+        showMessage("✅ Registration Successful!\n\n" +
+            "Name: " + firstName + " " + lastName + "\n" +
+            "Email: " + email + "\n" +
+            "Age: " + ageStr + "\n" +
+            "Purok: " + purok + "\n\n" +
+            "Welcome to SK Connect!", 
             "🎉 Success", JOptionPane.INFORMATION_MESSAGE);
             
         new LoginFrame();
@@ -251,21 +266,5 @@ public class RegisterFrame extends JFrame {
     
     private void showMessage(String message, String title, int type) {
         JOptionPane.showMessageDialog(this, message, title, type);
-    }
-    
-    class GradientPanel extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            
-            GradientPaint gradient = new GradientPaint(
-                0, 0, new Color(99, 102, 241),
-                getWidth(), getHeight(), new Color(129, 140, 248)
-            );
-            g2d.setPaint(gradient);
-            g2d.fillRect(0, 0, getWidth(), getHeight());
-        }
     }
 }
