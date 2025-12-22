@@ -1,0 +1,15 @@
+controllers/AuthController.class
+models/Event.class
+models/User.class
+views/YouthDashboard.class
+views/RegisterFrame.class
+views/YouthEventsFrame.class
+views/YouthOpportunitiesFrame$1.class
+views/YouthOpportunitiesFrame$OppButtonRenderer.class
+views/YouthOpportunitiesFrame.class
+views/YouthEventsFrame$1.class
+views/YouthEventsFrame$ButtonRenderer.class
+views/YouthEventsFrame$ButtonEditor.class
+views/YouthFeedbackFrame.class
+views/YouthProfileFrame.class
+views/YouthOpportunitiesFrame$OppButtonEditor.class
