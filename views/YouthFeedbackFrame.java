@@ -2,7 +2,6 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class YouthFeedbackFrame extends JFrame {
     private JTextArea feedbackArea;
