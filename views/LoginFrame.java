@@ -197,7 +197,7 @@ public class LoginFrame extends JFrame {
         return button;
     }
     
-    private void login() {
+       private void login() {
         String email = emailField.getText().trim();
         String password = new String(passwordField.getPassword());
         String role = (String) roleCombo.getSelectedItem();
@@ -211,7 +211,7 @@ public class LoginFrame extends JFrame {
         if (email.equals("admin@sk.com") && password.equals("admin123") && role.equals("SK Official")) {
             showMessage("Welcome Admin!", "✅ Success", JOptionPane.INFORMATION_MESSAGE);
             dispose();
-            new AdminDashboard();
+            new AdminDashboard(); 
         } else if (email.equals("youth@sk.com") && password.equals("youth123") && role.equals("Youth User")) {
             showMessage("Welcome Youth!", "✅ Success", JOptionPane.INFORMATION_MESSAGE);
             dispose();
