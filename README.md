@@ -6,3 +6,5 @@ Log creds:
 
 Compile: `javac -cp "mysql-connector-j-9.5.0.jar;." views/*.java models/*.java controllers/*.java`
 Run: `java -cp "mysql-connector-j-9.5.0.jar;." Main`
+
+pwede ra i click the vs code ▶️ button to run
