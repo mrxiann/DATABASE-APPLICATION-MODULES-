@@ -1,3 +1,4 @@
+# Java version of the SK Management Info System
 Log creds:
 - Admin: admin@sk.com / admin123
 - Youth: youth@sk.com / youth123
